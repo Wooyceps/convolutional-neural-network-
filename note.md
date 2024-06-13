@@ -40,6 +40,33 @@ train_dataset, test_dataset = dataset
 Zmienna `dataset` zawiera dwa zestawy danych: treningowy i testowy. Aby rozdzielić te zestawy na dwie zmienne, używamy przypisania wielokrotnego.
 
 ```python
+train_df = tfds.as_dataframe(train_dataset, info)
+test_df = tfds.as_dataframe(test_dataset, info)
+
+train_images = [row['image'] for _, row in train_df.iterrows()]
+train_labels = [row['label'] for _, row in train_df.iterrows()]
+
+test_images = [row['image'] for _, row in test_df.iterrows()]
+test_labels = [row['label'] for _, row in test_df.iterrows()]
+```
+
+Ten fragment kodu przekształca dane z formatu TensorFlow Dataset do formatu pandas DataFrame, który jest łatwiejszy do manipulowania i analizy. 
+
+1. **`train_df = tfds.as_dataframe(train_dataset, info)`**: Ta linia kodu konwertuje `train_dataset` (zbiór treningowy) na DataFrame za pomocą funkcji `as_dataframe` z biblioteki TensorFlow Datasets (`tfds`). Argument `info` jest używany do określenia struktury danych.
+
+2. **`test_df = tfds.as_dataframe(test_dataset, info)`**: Podobnie, ta linia kodu konwertuje `test_dataset` (zbiór testowy) na DataFrame.
+
+3. **`train_images = [row['image'] for _, row in train_df.iterrows()]`**: Ta linia kodu tworzy listę obrazów treningowych, iterując przez każdy wiersz DataFrame `train_df` i wybierając kolumnę 'image'. 
+
+4. **`train_labels = [row['label'] for _, row in train_df.iterrows()]`**: Podobnie, ta linia kodu tworzy listę etykiet treningowych, iterując przez każdy wiersz DataFrame `train_df` i wybierając kolumnę 'label'.
+
+5. **`test_images = [row['image'] for _, row in test_df.iterrows()]`**: Ta linia kodu tworzy listę obrazów testowych, analogicznie do tego, jak zostało to zrobione dla obrazów treningowych.
+
+6. **`test_labels = [row['label'] for _, row in test_df.iterrows()]`**: Na koniec, ta linia kodu tworzy listę etykiet testowych, analogicznie do tego, jak zostało to zrobione dla etykiet treningowych.
+
+W skrócie, ten fragment kodu przekształca dane z formatu TensorFlow Dataset na format pandas DataFrame, a następnie tworzy listy obrazów i etykiet dla zbiorów treningowego i testowego.
+
+```python
 train_images = np.array(train_images) / 255.0
 test_images = np.array(test_images) / 255.0
 ```
